@@ -22,8 +22,7 @@
 #include "Map.h"
 #include "System.h"
 
-namespace uw
-{
+
 class Frame;
 
 Map::Map() {
@@ -43,6 +42,3 @@ void Map::AddPointCloudFromRGBD(Frame* frame) {
     
     }
 };
-
-
-}

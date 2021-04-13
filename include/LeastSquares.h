@@ -19,10 +19,6 @@
 #include <opencv2/core.hpp>
 #include <Eigen/Core>
 
-
-
-namespace uw
-{
 class LS
 {
 public:
@@ -48,5 +44,3 @@ private:
     // EIGEN_ALIGN16
     float SSEData[4*28];
 };
-
-}

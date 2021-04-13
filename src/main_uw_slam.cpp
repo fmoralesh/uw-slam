@@ -19,23 +19,9 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <args.hxx>
-#include <thread>
+
 #include <System.h>
 #include <Tracker.h>
-
-#include <thread>
-#include <locale.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "Eigen/Core"
-
-// C++ namespaces
-using namespace uw;
-using namespace cv;
-using namespace std;
 
 int start_index;
 string images_path;
@@ -44,87 +30,37 @@ string ground_truth_dataset;
 string ground_truth_path;
 string depth_path;
 
-int main (int argc, char *argv[]) {
-
-    // Parse section
-    try {
-        parser.ParseCLI(argc, argv);
-    } 
-    catch (args::Help) {
-        cout << parser;
-        return 0;
-    } 
-    catch (args::ParseError e) {
-        cerr << e.what() << endl;
-        cerr << parser;
-        return 1;
-    } catch (args::ValidationError e) {
-        cerr <<  e.what() << endl;
-        cerr << parser;
-        return 1;
-    }
-    if (!dir_dataset) {
-        cout<< "Introduce path of images as argument." << endl;
-        cerr << "Use -h, --help command to see usage." << endl;
-        return 1;
-    } else {
-        images_path = args::get(dir_dataset);
-    }
-    if (ground_truth_EUROC) {
-        ground_truth_dataset = "EUROC";
-        ground_truth_path = args::get(ground_truth_EUROC);
-    } else if (ground_truth_TUM) {
-        ground_truth_dataset = "TUM";
-        ground_truth_path = args::get(ground_truth_TUM);
-        if (depth_TUM) {
-            depth_path = args::get(depth_TUM); 
-        } else {
-            depth_path = ""; 
-        }
-    } else {
-        depth_path = "";
-        ground_truth_dataset = "";
-        ground_truth_path = "";  // Need to change for final release
-    }
-    if (parse_calibration) {
-        calibration_path = args::get(parse_calibration);
-    } else {
-        calibration_path = "/home/fabiomorales/catkin_ws/src/uw-slam/calibration/calibrationTUM.xml";  // Need to change for final release
-    }
-    if (start_i) {
-        start_index = args::get(start_i);
-    } else {
-        start_index = 0;
-    }
-    
-    // Create new System
-    System* uwSystem = new System(argc, argv, start_index);
+int main (int argc, char *argv[]) 
+{
+    // Create uw-slam system
+    System system(argc, argv, start_index);
 
     // Calibrates system with certain Camera Model (currently only RadTan) 
-    uwSystem->Calibration(calibration_path);
+    system.Calibration(calibration_path);
     
     // Initialize SLAM system
-    uwSystem->InitializeSystem(images_path, ground_truth_dataset, ground_truth_path, depth_path);
+    system.InitializeSystem(images_path, ground_truth_dataset, ground_truth_path, depth_path);
     
     // Start SLAM process
     // Read images one by one from directory provided
-    uwSystem->AddFrame(start_index);
-    for (int i=start_index+1; i<uwSystem->num_valid_images_; i++) {
-        uwSystem->AddFrame(i);
-        uwSystem->Tracking();
-        uwSystem->visualizer_->UpdateMessages(uwSystem->previous_frame_);
+    system.AddFrame(start_index);
+
+    for (int i=start_index+1; i<system.num_valid_images_; i++) 
+    {
+        system.AddFrame(i);
+        system.Tracking();
+        system.visualizer_->UpdateMessages(system.previous_frame_);
 
         
         // Delete oldest frame (keeping 10 frames)
-        if (uwSystem->num_frames_> 10) {
-            uwSystem->FreeFrames();
+        if (system.num_frames_> 10) {
+            system.FreeFrames();
         }
 
-        cout << "Matches: " << uwSystem->previous_frame_->n_matches_ << endl;
+        cout << "Matches: " << system.previous_frame_->n_matches_ << endl;
     }
+
     cout << "Dataset ended..." << endl;
-    // Delete system
-    uwSystem->~System();
-    delete uwSystem;
+  
     return 0;
 }

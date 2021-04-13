@@ -21,11 +21,7 @@
 
 #include <Options.h>
 
-namespace uw{
-
 const int PYRAMID_LEVELS  =  5;
 double GRADIENT_THRESHOLD =  20;
 int BLOCK_SIZE            =  32;
 
-
-}

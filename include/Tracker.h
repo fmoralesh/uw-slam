@@ -54,9 +54,6 @@
 using namespace cv;
 using namespace std;
 
-
-namespace uw
-{
 class Frame;
 
 class RobustMatcher {
@@ -526,6 +523,3 @@ public:
 
     bool depth_available_;
 };
-
-
-}

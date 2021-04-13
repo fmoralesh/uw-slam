@@ -21,9 +21,6 @@
 
 #include <Visualizer.h>
 
-namespace uw
-{
-
 Visualizer::Visualizer(int start_index, int num_images, Mat K, string _ground_truth_dataset, string ground_truth_path) {
     
     use_ground_truth_ = false;
@@ -503,5 +500,3 @@ void Visualizer::ReadGroundTruthEUROC(int start_index, string groundtruth_path) 
     ground_truth_step_ = num_ground_truth_poses_ / num_images_ ;
     ground_truth_index_ = start_index * ground_truth_step_ + 600;  // + 600 is a temporarly fix for syncronous video and pose of ground truth (for EUROC V1_02_medium)
 };
-                                               
-}

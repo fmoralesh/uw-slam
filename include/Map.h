@@ -54,9 +54,6 @@
 using namespace cv;
 using namespace std;
 
-namespace uw
-{
-
 class Frame;
 
 class Map {
@@ -70,4 +67,3 @@ public:
 
     Mat recent_cloud_points_;
 };
-}

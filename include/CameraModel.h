@@ -36,9 +36,6 @@
 using namespace cv;
 using namespace std;
 
-namespace uw
-{
-
 class CameraModel
 {
 public:
@@ -143,7 +140,3 @@ private:
 
     bool valid_;
 };
-
-
-
-}

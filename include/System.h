@@ -52,9 +52,6 @@
 using namespace cv;
 using namespace std;
 
-namespace uw
-{
-
 class CameraModel;
 class Tracker;
 class Map;
@@ -225,5 +222,3 @@ public:
     bool distortion_valid_;
     bool depth_available_;
 };
-
-}

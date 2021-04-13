@@ -21,9 +21,6 @@
 
 #include "CameraModel.h"
 
-namespace uw
-{
-
 CameraModel::~CameraModel() {}
 
 // TODO(GitHub:fmoralesh, fabmoraleshidalgo@gmail.com) 02-13-2018 - Implement other camera models to UWSLAM (FOV)
@@ -136,6 +133,4 @@ int CameraModel::GetInputHeight() const {
 
 bool CameraModel::IsValid() const {
 	return valid_;
-}
-
 }

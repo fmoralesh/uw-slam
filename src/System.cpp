@@ -23,9 +23,6 @@
 #include "CameraModel.h"
 #include "Tracker.h"
 
-namespace uw
-{
-
 System::System(int argc, char *argv[], int _start_index) {
     ros::init(argc, argv, "uw_slam");  // Initialize ROS
     start_index_ = _start_index;
@@ -352,6 +349,4 @@ void System::AddLists(string _path, string _depth_path) {
 void System::FreeFrames() {
     frames_[0]->~Frame();
     frames_.erase(frames_.begin());
-}
-
 }

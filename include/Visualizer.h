@@ -45,9 +45,6 @@
 // Namespaces
 using namespace std;
 
-namespace uw
-{
-
 class System;
 
 class Visualizer
@@ -128,5 +125,3 @@ public:
 
     bool use_ground_truth_;
 };
-
-}

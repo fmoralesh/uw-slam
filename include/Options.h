@@ -23,8 +23,6 @@
 #include "sophus/se3.hpp"
 #include "sophus/so3.hpp"
 
-namespace uw
-{
 
 #define SSEE(val,idx) (*(((float*)&val)+idx))
 #define ALIGN __attribute__((__aligned__(16)))
@@ -57,5 +55,3 @@ typedef Eigen::Matrix<float,6,7> Mat67f;
 extern const int PYRAMID_LEVELS;
 extern int BLOCK_SIZE;
 extern double GRADIENT_THRESHOLD;
-
-}

@@ -22,9 +22,6 @@
 
 #include "LeastSquares.h"
 
-namespace uw
-{
-	
 LS::~LS() {};
 
 void LS::initialize(const int max_num_constraints) {
@@ -207,5 +204,3 @@ void LS::update(const Mat61f& J, const float& res, const float& weight) {
     error += res * res * weight;
     num_constraints += 1;
 };
-
-}

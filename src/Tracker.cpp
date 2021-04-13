@@ -26,9 +26,6 @@
 
 #include <opencv2/core/eigen.hpp>
 
-namespace uw
-{
-
 class LS;
 
 class LocalParameterizationSE3;
@@ -1736,83 +1733,3 @@ void Tracker::DebugShowWarpedPerspective(Mat _image1, Mat _image2, Mat _imageWar
     waitKey(0);
 
 }
-
-
-}
-
-    // CERES CODE -- FOR REVIEW
-    // float initial_x = _previous_frame->id;
-    // float x = initial_x;
-    // int num_residuals = _previous_frame->images_[2].rows * _previous_frame->images_[2].cols;
-    // cout << num_residuals << endl;
-    // _previous_frame->rigid_transformation_ = SE3(Sophus::SO3d::exp(SE3::Point(0.2, 0.5, 0.0)), SE3::Point(10, 0, 0));
-    // Optimization parameter
-    // Sophus::Vector<float, 7> pose = _previous_frame->rigid_transformation_.params();
-    // Sophus::Vector<float, 6> lie_algebra = _previous_frame->rigid_transformation_.log();
-    
-    // Build problem
-    // ceres::Problem problem;
-
-    // problem.AddParameterBlock(_previous_frame->rigid_transformation_.data(), SE3::num_parameters,
-    //                             new LocalParameterizationSE3);
-
-    // ceres::CostFunction* cost_function = new ResidualIntensity<22080, SE3::num_parameters>(_previous_frame->images_[2],
-    //                                                             _current_frame->images_[2],
-    //                                                             2,
-    //                                                             fx_[2],
-    //                                                             fy_[2],
-    //                                                             cx_[2],
-    //                                                             cy_[2],
-    //                                                             invfx_[2],
-    //                                                             invfy_[2]);
-                                                                
-    // cost_function->num_residuals(num_residuals);
-    // ceres::CostFunction* cost_function = new 
-    //     new ceres::NumericDiffCostFunction<ResidualIntensity, ceres::CENTRAL, ceres::DYNAMIC, SE3::num_parameters>
-    //         (photometric, ceres::TAKE_OWNERSHIP, num_residuals);
-    
-    // cout << _previous_frame->rigid_transformation_.matrix() << endl;
-    // problem.AddResidualBlock(cost_function, NULL, _previous_frame->rigid_transformation_.data());
-    
-    // ceres::Solver::Options options;
-    // options.gradient_tolerance = 0.01 * Sophus::Constants<float>::epsilon();
-    // options.function_tolerance = 0.01 * Sophus::Constants<float>::epsilon();
-    // options.linear_solver_type = ceres::DENSE_QR;
-
-    // Solve
-    // ceres::Solver::Summary summary;
-    // Solve(options, &problem, &summary);
-    // cout << summary.BriefReport() << endl;
-    // // Create and add cost function. Derivaties will be evaluate via automatic differentiation
-    // PhotometricErrorOptimization* c = new PhotometricErrorOptimization(
-    //                                     _previous_frame->images_[0],
-    //                                     _current_frame->images_[0],
-    //                                     0,
-    //                                     fx_[0], fy_[0], cx_[0], cy_[0], invfx_[0], invfy_[0]);
-
-    // ceres::AutoDiffCostFunction<PhotometricErrorOptimization, ceres::DYNAMIC, SE3::num_parameters>* cost_function = 
-    //                                 new PhotometricErrorOptimization
-    
-
-
-    // problem.AddResidualBlock(cost_function, NULL, body_transformation.data());
-
-
-    // ceres::CostFunction* cost_function = new ceres::AutoDiffCostFunction<PhotometricError, 1, 1>(new PhotometricError);
-    // problem.AddResidualBlock(cost_function, NULL, &x);
-
-    // ceres::Solver::Options options;
-    // options.linear_solver_type = ceres::DENSE_QR;
-    // options.minimizer_progress_to_stdout - true;
-    // ceres::Solver::Summary summary;
-    // Solve(options, &problem, &summary);
-
-    // std::cout << summary.BriefReport() << "\n";
-    // std::cout << "x : " << initial_x
-    //             << " -> " << x << "\n";
-
-    // Sophus::SE3d transformation(_previous_frame->rigid_transformation_);
-
-    // Sophus::SE3d::QuaternionType p;
-    // p = transformation.unit_quaternion();
-    // cout << "Quaternion: " << p.coeffs() << endl;
