@@ -12,37 +12,19 @@ UW-SLAM is a free and open source licensed under the [GPL-3.0 License](https://e
 
 ## Requirements
 
-- [OpenCV 3.2](http://opencv.org) and extra modules.
-- [ROS Kinetic](http://wiki.ros.org/kinetic/Installation).
-- [CUDA 8.0](https://developer.nvidia.com/cuda-toolkit-archive).
-- [Eigen 3](http://eigen.tuxfamily.org/index.php?title=Main_Page).
-- [Ceres solver](http://ceres-solver.org/).
+- [ROS Noetic](http://wiki.ros.org/noetic/Installation).
 
 ## Getting Started
 
-From a fresh Ubuntu 16.04 LTS, install the following dependencies:
+From a fresh Ubuntu 20.04 LTS, install the following requirements:
 
-#### OpenCV 3.2 with CUDA 8.0
+#### ROS Noetic
 
-Refer to [OpenCV and CUDA 8.0 installation instructions](https://github.com/MecatronicaUSB/uwimageproc/blob/master/INSTALL.md).
+Refer to [ROS Noetic installation instructions](http://wiki.ros.org/noetic/Installation).
 
-#### ROS Kinetic
+## Building uw-slam
 
-Refer to [ROS Kinetic installation instructions](http://wiki.ros.org/kinetic/Installation).
-
-#### Eigen 3
-
-```bash
-sudo apt-get install libsuitesparse-dev libeigen3-dev libboost-all-dev
-```
-
-#### Ceres solver
-
-Refer to [Ceres solver installation](http://ceres-solver.org/installation.html#linux).
-
-## Building UW-SLAM
-
-Clone UW-SLAM repository in the `/src` folder of your catkin workspace:
+Clone uw-slam repository in the `/src` folder of your catkin workspace:
 
 ```bash
 cd <catkin_ws_directory>/src
