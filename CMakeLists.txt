@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(uw_slam)
 
-## Compile as C++11, supported in ROS Kinetic and newer
+## Compile as C++11, supported in ROS Melodic and newer
  add_compile_options(-std=c++11)
+
 # Opencv Library (local)
-set(OpenCV_INCLUDE_DIRS /usr/local/)
-set(OpenCV_LIBS /usr/local/lib/libopencv_core.so)
+#set(OpenCV_INCLUDE_DIRS /usr/local/)
+#set(OpenCV_LIBS /usr/local/lib/libopencv_core.so)
 
 # Required libraries
 find_package(catkin REQUIRED COMPONENTS
@@ -17,13 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   message_generation
 )
-find_package(OpenCV REQUIRED
-NO_MODULE
-PATHS /usr/local
-NO_DEFAULT_PATH)
-find_package(CUDA REQUIRED)
+find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(Ceres REQUIRED)
 
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -35,7 +31,7 @@ if(CUDA_FOUND)
   # Print some message showing some of them
   message(STATUS "CUDA library status:")
   message(STATUS "    toolkit root dir: ${CUDA_TOOLKIT_ROOT_DIR}")
-  message(STATUS "    version: ${CUDA_VERSION}")
+  message(STATUS "    versions: ${CUDA_VERSION}")
   message(STATUS "    libraries: ${CUDA_LIBRARIES}")
   message(STATUS "    include path: ${CUDA_INCLUDE_DIRS}")
 endif(CUDA_FOUND)
@@ -48,10 +44,7 @@ generate_messages(
 )
 
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES uw_slam
-   CATKIN_DEPENDS roscpp visualization_msgs message_runtime
-#  DEPENDS system_lib
+  CATKIN_DEPENDS roscpp visualization_msgs message_runtime
 )
 
 # Source files
@@ -70,7 +63,6 @@ set(uw_slam_SOURCE_FILES
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
-  ${CERES_INCLUDE_DIRS}
   ${PROJECT_SOURCE_DIR}/include
   ${PROJECT_SOURCE_DIR}/thirdparty
 )

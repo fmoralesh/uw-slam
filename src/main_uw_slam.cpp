@@ -32,12 +32,10 @@
 #include <unistd.h>
 #include "Eigen/Core"
 
-
 // C++ namespaces
 using namespace uw;
 using namespace cv;
 using namespace std;
-using namespace cv::cuda;
 
 int start_index;
 string images_path;
@@ -45,30 +43,8 @@ string calibration_path;
 string ground_truth_dataset;
 string ground_truth_path;
 string depth_path;
-cuda::DeviceInfo device_info;
-
-void ShowSettings() {
-    cout << "CUDA enabled devices detected: " << device_info.name() << endl;
-    cout << "Directory of calibration xml file: " << calibration_path << endl;
-    cout << "Directory of images: " << images_path  << endl;
-    if (not (ground_truth_path == ""))
-        cout << "Directory of ground truth poses: " << ground_truth_path << endl;
-    if (not (depth_path == ""))
-        cout << "Directory of depth images (TUM): " << depth_path << endl;
-    cout << endl;
-}
 
 int main (int argc, char *argv[]) {
-
-    cout << "===================================================" << endl;
-    int n_cuda_devices = cuda::getCudaEnabledDeviceCount();
-    if (n_cuda_devices > 0) {
-        cuda::setDevice(0);
-    } else {
-        cout << "No CUDA device detected" << endl;
-        cout << "Exiting..." << endl;
-        return -1;
-    }
 
     // Parse section
     try {
@@ -121,9 +97,6 @@ int main (int argc, char *argv[]) {
         start_index = 0;
     }
     
-    // Show parser settings and CUDA information
-    ShowSettings();
-
     // Create new System
     System* uwSystem = new System(argc, argv, start_index);
 

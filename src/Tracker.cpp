@@ -124,7 +124,7 @@ Mat RobustMatcher::ransacTest(const vector<DMatch>& matches, const vector<KeyPoi
         cv::Mat fundemental= findFundamentalMat(
             cv::Mat(points1),cv::Mat(points2), // matching points
             inliers,       // match status (inlier or outlier)
-            CV_FM_RANSAC, // RANSAC method
+            cv::FM_RANSAC, // RANSAC method
             distance_,      // distance to epipolar line
             confidence_); // confidence probability
         // extract the surviving (inliers) matches
@@ -161,7 +161,7 @@ Mat RobustMatcher::ransacTest(const vector<DMatch>& matches, const vector<KeyPoi
             if (points1.size()>0&&points2.size()>0){
                 fundemental= cv::findFundamentalMat(
                 cv::Mat(points1),cv::Mat(points2), // matches
-                CV_FM_8POINT); // 8-point method
+                cv::FM_8POINT); // 8-point method
             }
         }
     }
@@ -169,82 +169,82 @@ Mat RobustMatcher::ransacTest(const vector<DMatch>& matches, const vector<KeyPoi
 }
 
 void RobustMatcher::DetectAndTrackFeatures(Frame* _previous_frame, Frame* _current_frame, bool usekeypoints) {
-    cuda::GpuMat previous_frameGPU, current_frameGPU;
-    cuda::GpuMat keypointsGPU[2];
-    cuda::GpuMat descriptorsGPU[2];
-    array<vector<KeyPoint>,2> keypoints;
-    array<vector<float>,2> descriptors;
+    // cuda::GpuMat previous_frameGPU, current_frameGPU;
+    // cuda::GpuMat keypointsGPU[2];
+    // cuda::GpuMat descriptorsGPU[2];
+    // array<vector<KeyPoint>,2> keypoints;
+    // array<vector<float>,2> descriptors;
     
-    // Upload images to GPU
-    previous_frameGPU.upload(_previous_frame->images_[0]);
-    current_frameGPU.upload(_current_frame->images_[0]);
+    // // Upload images to GPU
+    // previous_frameGPU.upload(_previous_frame->images_[0]);
+    // current_frameGPU.upload(_current_frame->images_[0]);
 
-    // Matching descriptors
-    vector< vector< DMatch> > matches1;
-    vector< vector< DMatch> > matches2;
+    // // Matching descriptors
+    // vector< vector< DMatch> > matches1;
+    // vector< vector< DMatch> > matches2;
 
-    // SURF as feature detector
-    if(isSURF_) {
-        cuda::SURF_CUDA surf;        
-        Ptr<cuda::DescriptorMatcher> matcher = cv::cuda::DescriptorMatcher::createBFMatcher();
+    // // SURF as feature detector
+    // if(isSURF_) {
+    //     cuda::SURF_CUDA surf;        
+    //     Ptr<cuda::DescriptorMatcher> matcher = cv::cuda::DescriptorMatcher::createBFMatcher();
 
-        // Loading previous keypoints found
-        surf.uploadKeypoints(_previous_frame->keypoints_, keypointsGPU[0]);
+    //     // Loading previous keypoints found
+    //     surf.uploadKeypoints(_previous_frame->keypoints_, keypointsGPU[0]);
 
-        // Detecting keypoints and computing descriptors
-        surf(previous_frameGPU, cuda::GpuMat(), keypointsGPU[0], descriptorsGPU[0], usekeypoints);
-        surf(current_frameGPU, cuda::GpuMat(), keypointsGPU[1], descriptorsGPU[1]);
+    //     // Detecting keypoints and computing descriptors
+    //     surf(previous_frameGPU, cuda::GpuMat(), keypointsGPU[0], descriptorsGPU[0], usekeypoints);
+    //     surf(current_frameGPU, cuda::GpuMat(), keypointsGPU[1], descriptorsGPU[1]);
 
-        // Matching descriptors
-        matcher->knnMatch(descriptorsGPU[0], descriptorsGPU[1], matches1, 2);
-        matcher->knnMatch(descriptorsGPU[1], descriptorsGPU[0], matches2, 2);
+    //     // Matching descriptors
+    //     matcher->knnMatch(descriptorsGPU[0], descriptorsGPU[1], matches1, 2);
+    //     matcher->knnMatch(descriptorsGPU[1], descriptorsGPU[0], matches2, 2);
         
-        // Downloading results
-        surf.downloadKeypoints(keypointsGPU[0], keypoints[0]);
-        surf.downloadKeypoints(keypointsGPU[1], keypoints[1]);
-        surf.downloadDescriptors(descriptorsGPU[0], descriptors[0]);
-        surf.downloadDescriptors(descriptorsGPU[1], descriptors[1]);
+    //     // Downloading results
+    //     surf.downloadKeypoints(keypointsGPU[0], keypoints[0]);
+    //     surf.downloadKeypoints(keypointsGPU[1], keypoints[1]);
+    //     surf.downloadDescriptors(descriptorsGPU[0], descriptors[0]);
+    //     surf.downloadDescriptors(descriptorsGPU[1], descriptors[1]);
 
-    }
+    // }
 
-    // ORB as feature detector
-    if(isORB_)  {
-        Ptr<cuda::ORB> orb = cv::cuda::ORB::create();
-        Ptr<cuda::DescriptorMatcher> matcher = cv::cuda::DescriptorMatcher::createBFMatcher(NORM_HAMMING);
+    // // ORB as feature detector
+    // if(isORB_)  {
+    //     Ptr<cuda::ORB> orb = cv::cuda::ORB::create();
+    //     Ptr<cuda::DescriptorMatcher> matcher = cv::cuda::DescriptorMatcher::createBFMatcher(NORM_HAMMING);
 
-        // Loading previous keypoints found
-        keypoints[0] = _previous_frame->keypoints_;
+    //     // Loading previous keypoints found
+    //     keypoints[0] = _previous_frame->keypoints_;
 
-        orb->detectAndCompute(previous_frameGPU, cuda::GpuMat(), keypoints[0], descriptorsGPU[0], usekeypoints);
-        orb->detectAndCompute(current_frameGPU, cuda::GpuMat(), keypoints[1], descriptorsGPU[1]);
+    //     orb->detectAndCompute(previous_frameGPU, cuda::GpuMat(), keypoints[0], descriptorsGPU[0], usekeypoints);
+    //     orb->detectAndCompute(current_frameGPU, cuda::GpuMat(), keypoints[1], descriptorsGPU[1]);
  
-        matcher->knnMatch(descriptorsGPU[0], descriptorsGPU[1], matches1, 2);
-        matcher->knnMatch(descriptorsGPU[1], descriptorsGPU[0], matches2, 2);
-    }
+    //     matcher->knnMatch(descriptorsGPU[0], descriptorsGPU[1], matches1, 2);
+    //     matcher->knnMatch(descriptorsGPU[1], descriptorsGPU[0], matches2, 2);
+    // }
 
-    // Remove matches for which NN ratio is > than threshold
-    // clean image 1 -> image 2 matches
-    int removed = ratioTest(matches1);
-    // clean image 2 -> image 1 matches
-    removed = ratioTest(matches2);
+    // // Remove matches for which NN ratio is > than threshold
+    // // clean image 1 -> image 2 matches
+    // int removed = ratioTest(matches1);
+    // // clean image 2 -> image 1 matches
+    // removed = ratioTest(matches2);
 
-    // Remove non-symmetrical matches
-    vector<DMatch> symMatches;
-    symmetryTest(matches1, matches2, symMatches);
+    // // Remove non-symmetrical matches
+    // vector<DMatch> symMatches;
+    // symmetryTest(matches1, matches2, symMatches);
 
-    // Validate matches using RANSAC
-    vector< DMatch> goodMatches;    
-    Mat fundamental = ransacTest(symMatches, keypoints[0], keypoints[1], goodMatches);
+    // // Validate matches using RANSAC
+    // vector< DMatch> goodMatches;    
+    // Mat fundamental = ransacTest(symMatches, keypoints[0], keypoints[1], goodMatches);
 
-    // Obtain good keypoints from goodMatches
-    array<vector<KeyPoint>,2> goodKeypoints;
-    goodKeypoints = getGoodKeypoints(goodMatches, keypoints);
+    // // Obtain good keypoints from goodMatches
+    // array<vector<KeyPoint>,2> goodKeypoints;
+    // goodKeypoints = getGoodKeypoints(goodMatches, keypoints);
 
-    _previous_frame->n_matches_ = goodMatches.size();
-    _current_frame->n_matches_ = goodMatches.size();
+    // _previous_frame->n_matches_ = goodMatches.size();
+    // _current_frame->n_matches_ = goodMatches.size();
     
-    _previous_frame->keypoints_ = goodKeypoints[0];    
-    _current_frame->keypoints_  = goodKeypoints[1];
+    // _previous_frame->keypoints_ = goodKeypoints[0];    
+    // _current_frame->keypoints_  = goodKeypoints[1];
 
     // Show results
     // Mat img_matches;
@@ -1313,53 +1313,53 @@ void Tracker::ObtainAllPoints(Frame* _frame) {
 // 02-13-2018 - Implement a faster way to obtain candidate points with high gradient value in patches (above of a certain threshold)
 void Tracker::ObtainCandidatePoints(Frame* _frame) {
     // Factor of TUM depth images
-    float factor = 0.0002;
-    float depth_initialization = 1;
+    // float factor = 0.0002;
+    // float depth_initialization = 1;
 
-    for (int lvl = 0; lvl < PYRAMID_LEVELS; lvl++){
-        Scalar mean, stdev;
-        float thres = 0.0;
-        cuda::GpuMat filteredGPU;
+    // for (int lvl = 0; lvl < PYRAMID_LEVELS; lvl++){
+    //     Scalar mean, stdev;
+    //     float thres = 0.0;
+    //     cuda::GpuMat filteredGPU;
 
-        cuda::GpuMat frameGPU(_frame->gradient_[lvl]);
-        cuda::meanStdDev(frameGPU, mean, stdev);
+    //     cuda::GpuMat frameGPU(_frame->gradient_[lvl]);
+    //     cuda::meanStdDev(frameGPU, mean, stdev);
         
-        thres = mean[0] + GRADIENT_THRESHOLD;
+    //     thres = mean[0] + GRADIENT_THRESHOLD;
 
-        cuda::threshold(frameGPU, filteredGPU, thres, 255, THRESH_BINARY);
+    //     cuda::threshold(frameGPU, filteredGPU, thres, 255, THRESH_BINARY);
 
-        Mat filtered = Mat(_frame->gradient_[lvl].size(), CV_8UC1);
-        filteredGPU.download(filtered);
+    //     Mat filtered = Mat(_frame->gradient_[lvl].size(), CV_8UC1);
+    //     filteredGPU.download(filtered);
 
-        for (int x=0; x<w_[lvl]; x++) {
-            for (int y =0; y<h_[lvl]; y++) {
-                Mat point = Mat::ones(1,4,CV_32FC1);
-                Mat depth = Mat::ones(1,1,CV_32FC1);                
-                if (_frame->depth_available_) {
-                    if (_frame->depths_[lvl].at<uchar>(y,x) != 0 && filtered.at<uchar>(y,x) != 0) {
+    //     for (int x=0; x<w_[lvl]; x++) {
+    //         for (int y =0; y<h_[lvl]; y++) {
+    //             Mat point = Mat::ones(1,4,CV_32FC1);
+    //             Mat depth = Mat::ones(1,1,CV_32FC1);                
+    //             if (_frame->depth_available_) {
+    //                 if (_frame->depths_[lvl].at<uchar>(y,x) != 0 && filtered.at<uchar>(y,x) != 0) {
                         
-                        Mat pointMat = Mat::ones(1, 4, CV_32FC1);                
-                        pointMat.at<float>(0,0) = x;
-                        pointMat.at<float>(0,1) = y;
-                        pointMat.at<float>(0,2) = _frame->depths_[lvl].at<uchar>(y,x) * factor;
-                        _frame->candidatePoints_[lvl].push_back(pointMat);
+    //                     Mat pointMat = Mat::ones(1, 4, CV_32FC1);                
+    //                     pointMat.at<float>(0,0) = x;
+    //                     pointMat.at<float>(0,1) = y;
+    //                     pointMat.at<float>(0,2) = _frame->depths_[lvl].at<uchar>(y,x) * factor;
+    //                     _frame->candidatePoints_[lvl].push_back(pointMat);
 
-                    }
-                } else {
-                    if (filtered.at<uchar>(y,x) != 0) {
+    //                 }
+    //             } else {
+    //                 if (filtered.at<uchar>(y,x) != 0) {
 
-                        Mat pointMat = Mat::ones(1, 4, CV_32FC1);                
-                        pointMat.at<float>(0,0) = x;
-                        pointMat.at<float>(0,1) = y;
-                        pointMat.at<float>(0,2) = depth_initialization;
-                        _frame->candidatePoints_[lvl].push_back(pointMat);
-                    }
-                }
-            }
-        }
+    //                     Mat pointMat = Mat::ones(1, 4, CV_32FC1);                
+    //                     pointMat.at<float>(0,0) = x;
+    //                     pointMat.at<float>(0,1) = y;
+    //                     pointMat.at<float>(0,2) = depth_initialization;
+    //                     _frame->candidatePoints_[lvl].push_back(pointMat);
+    //                 }
+    //             }
+    //         }
+    //     }
 
 
-    }
+    // }
 
     // Making block-size. Pretty slow 
     // for (int lvl = 0; lvl < PYRAMID_LEVELS; lvl++){
@@ -1412,6 +1412,7 @@ Mat Tracker::WarpFunctionOpenCV(Mat _points2warp, SE3 _rigid_transformation, int
 
     Mat world_coordinates = K.inv() * original_points;
 
+    return world_coordinates;
 }
 
 Mat Tracker::WarpFunction(Mat _points2warp, SE3 _rigid_transformation, int _lvl) {

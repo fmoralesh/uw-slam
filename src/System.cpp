@@ -148,7 +148,7 @@ cout << "depth no avaliable"<<endl;
 void System::CalculateROI() {
     // Load first image
     Mat distorted, undistorted;
-    distorted = imread(images_list_[0], CV_LOAD_IMAGE_GRAYSCALE);
+    distorted = imread(images_list_[0], cv::IMREAD_GRAYSCALE);
     remap(distorted, undistorted, map1_, map2_, INTER_LINEAR);
 
     // Find middle x and y of image (supposing a symmetrical distortion)
@@ -225,7 +225,7 @@ void System::Tracking() {
 void System::AddFrame(int _id) {
     Frame* newFrame   = new Frame();
     newFrame->idFrame_ = _id;
-    newFrame->images_[0] = imread(images_list_[_id], CV_LOAD_IMAGE_GRAYSCALE);
+    newFrame->images_[0] = imread(images_list_[_id], cv::IMREAD_GRAYSCALE);
     
     cvtColor(newFrame->images_[0], newFrame->image_to_send, COLOR_GRAY2BGR);
     

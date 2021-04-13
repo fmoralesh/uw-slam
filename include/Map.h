@@ -36,9 +36,6 @@
 #include "opencv2/calib3d.hpp"
 #include <opencv2/video.hpp>
 
-// Ceres library
-#include "ceres/ceres.h"
-
 // Eigen library
 #include <eigen3/Eigen/Core>
 
@@ -47,11 +44,11 @@
 #include "sophus/so3.hpp"
 
 /// CUDA specific libraries
-#include <opencv2/cudafilters.hpp>
-#include "opencv2/cudafeatures2d.hpp"
-#include "opencv2/xfeatures2d/cuda.hpp"
-#include "opencv2/cudaimgproc.hpp"
-#include "opencv2/cudaarithm.hpp"
+// #include <opencv2/cudafilters.hpp>
+// #include "opencv2/cudafeatures2d.hpp"
+// #include "opencv2/xfeatures2d/cuda.hpp"
+// #include "opencv2/cudaimgproc.hpp"
+// #include "opencv2/cudaarithm.hpp"
 
 // Namespaces
 using namespace cv;
