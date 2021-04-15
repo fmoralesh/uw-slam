@@ -1,13 +1,12 @@
 <launch>
-    <!-- UW-SLAM main thread-->
-    <node pkg="uw_slam" type="main_uw_slam" name="main"  
-        args="-d <directory of images files>
-              -c <directory of calibration.xml file> 
-              -s <number of starting frame>
-              "
-        clear_params="true" 
-        output="screen"/>
+    
+    <!-- Configuration -->
+    <rosparam command="load" file="$(find uw-slam)/config/configuration.yml"/>
+
+    <!-- Main uw-slam -->
+    <node pkg="uw-slam" type="main_uw_slam" name="main" output="screen"/>
         
     <!-- Rviz visualizer-->
     <node pkg="rviz" type="rviz" name="rviz"/>
+
 </launch>

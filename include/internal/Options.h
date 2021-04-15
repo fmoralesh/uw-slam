@@ -19,6 +19,9 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
+
+#include <ros/ros.h>
+
 #include "sophus/sim3.hpp"
 #include "sophus/se3.hpp"
 #include "sophus/so3.hpp"
@@ -55,3 +58,21 @@ typedef Eigen::Matrix<float,6,7> Mat67f;
 extern const int PYRAMID_LEVELS;
 extern int BLOCK_SIZE;
 extern double GRADIENT_THRESHOLD;
+
+class Options
+{
+public:
+
+    Options();
+    ~Options() = default;
+
+    const int         getStartingFrame();
+    const std::string getCalibrationPath();
+    const std::string getDatasetPath();
+
+private:
+
+    int         starting_frame_;
+    std::string calibration_path_;
+    std::string dataset_path_;
+};

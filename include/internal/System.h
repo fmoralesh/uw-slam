@@ -107,9 +107,9 @@ public:
      * 
      * @param argc 
      * @param argv 
-     * @param _start_index 
+     * @param _options 
      */
-    System(int argc, char *argv[], int _start_index);
+    System(int argc, char *argv[], Options _options);
 
     /**
      * @brief Destructor of System.
@@ -137,7 +137,7 @@ public:
      * @brief Initializes necessary variables to start SLAM system.
      *        Call after Calibration() but before adding the first frame to the system.
      */
-    void InitializeSystem(string _images_path, string _ground_truth_dataset, string _ground_truth_path, string _depth_path);
+    void InitializeSystem();
 
     /**
      * @brief Starts tracking thread of the next frame. 
@@ -222,4 +222,9 @@ public:
     bool initialized_;
     bool distortion_valid_;
     bool depth_available_;
+
+private:
+
+    Options options_;
+
 };

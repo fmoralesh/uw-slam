@@ -23,30 +23,6 @@
 #include "internal/CameraModel.h"
 #include "internal/Tracker.h"
 
-System::System(int argc, char *argv[], int _start_index) {
-    ros::init(argc, argv, "uw_slam");  // Initialize ROS
-    start_index_ = _start_index;
-    initialized_ = false;
-    distortion_valid_ = false;
-    depth_available_ = false;
-    num_frames_     = 0;
-    num_keyframes_  = 0;
-    num_valid_images_ = 0;
-}
-
-System::~System() {
-    cout << "SLAM System shutdown ..." << endl;
-    frames_.clear();
-    keyframes_.clear();
-    camera_model_->~CameraModel();
-    tracker_->~Tracker();
-    visualizer_->~Visualizer();
-
-    delete camera_model_;
-    delete tracker_;
-    delete visualizer_;
-}
-
 Frame::Frame(void) {
     
     rigid_transformation_ = SE3();
@@ -70,6 +46,34 @@ Frame::~Frame(void) {
 
 }
 
+System::System(int argc, char *argv[], Options _options) : options_(_options)
+{
+    // Initialize ROS
+    ros::init(argc, argv, "uw_slam");
+
+    initialized_      = false;
+    distortion_valid_ = false;
+    depth_available_  = false;
+    num_frames_       = 0;
+    num_keyframes_    = 0;
+    num_valid_images_ = 0;
+
+    this->Calibration(options_.getCalibrationPath());
+    this->InitializeSystem();
+}
+
+System::~System() {
+    cout << "SLAM System shutdown ..." << endl;
+    frames_.clear();
+    keyframes_.clear();
+    camera_model_->~CameraModel();
+    tracker_->~Tracker();
+    visualizer_->~Visualizer();
+
+    delete camera_model_;
+    delete tracker_;
+    delete visualizer_;
+}
 
 void System::Calibration(string _calibration_path) {
     cout << "Reading calibration xml file";
@@ -85,61 +89,61 @@ void System::Calibration(string _calibration_path) {
 	}
 }
 
-void System::InitializeSystem(string _images_path, string _ground_truth_dataset, string _ground_truth_path, string _depth_path) {
+void System::InitializeSystem() {
     // Check if depth images are available
-    if (_depth_path != "")
-        depth_available_ = true;
+//     if (_depth_path != "")
+//         depth_available_ = true;
 
-    // Add list of the dataset images names
-    AddLists(_images_path, _depth_path);\
+//     // Add list of the dataset images names
+//     AddLists(_images_path, _depth_path);
     
-    if (start_index_>images_list_.size()) {
-        cout << "The image " << start_index_ << " doesn't exist." << endl;
-        cout << "Exiting..." << endl;
-        exit(0);
-    }
-    // Obtain parameters of camera_model
-    K_ = camera_model_->GetK();
-    w_input_ = camera_model_->GetInputHeight();
-    h_input_ = camera_model_->GetInputWidth();
-    map1_ = camera_model_->GetMap1();
-    map2_ = camera_model_->GetMap2();
-    fx_ = camera_model_->GetK().at<float>(0,0);
-    fy_ = camera_model_->GetK().at<float>(1,1);
-    cx_ = camera_model_->GetK().at<float>(0,2);
-    cy_ = camera_model_->GetK().at<float>(1,2);
-    distortion_valid_ = camera_model_->IsValid();
+//     if (start_index_>images_list_.size()) {
+//         cout << "The image " << start_index_ << " doesn't exist." << endl;
+//         cout << "Exiting..." << endl;
+//         exit(0);
+//     }
+//     // Obtain parameters of camera_model
+//     K_ = camera_model_->GetK();
+//     w_input_ = camera_model_->GetInputHeight();
+//     h_input_ = camera_model_->GetInputWidth();
+//     map1_ = camera_model_->GetMap1();
+//     map2_ = camera_model_->GetMap2();
+//     fx_ = camera_model_->GetK().at<float>(0,0);
+//     fy_ = camera_model_->GetK().at<float>(1,1);
+//     cx_ = camera_model_->GetK().at<float>(0,2);
+//     cy_ = camera_model_->GetK().at<float>(1,2);
+//     distortion_valid_ = camera_model_->IsValid();
 
-    // Obtain ROI for distorted images
-    if (distortion_valid_)
-        CalculateROI();
+//     // Obtain ROI for distorted images
+//     if (distortion_valid_)
+//         CalculateROI();
 
-    // Initialize tracker system
-    tracker_ = new Tracker(depth_available_);
-    tracker_->InitializePyramid(w_, h_, K_);
-    tracker_->InitializeMasks();
+//     // Initialize tracker system
+//     tracker_ = new Tracker(depth_available_);
+//     tracker_->InitializePyramid(w_, h_, K_);
+//     tracker_->InitializeMasks();
 
-    // Initialize map
-    map_ = new Map();
+//     // Initialize map
+//     map_ = new Map();
 
-    // Initialize output visualizer
-    ground_truth_path_    = _ground_truth_path;
-    ground_truth_dataset_ = _ground_truth_dataset;
-    visualizer_ = new Visualizer(start_index_, images_list_.size(), K_, _ground_truth_dataset, _ground_truth_path);
+//     // Initialize output visualizer
+//     ground_truth_path_    = _ground_truth_path;
+//     ground_truth_dataset_ = _ground_truth_dataset;
+//     visualizer_ = new Visualizer(start_index_, images_list_.size(), K_, _ground_truth_dataset, _ground_truth_path);
 
-    // Cheking if the number of depth images are greater or lower than the actual number of images
-    if (depth_available_) {
-        if (images_list_.size() > depth_list_.size())
-            num_valid_images_ = depth_list_.size();
-        if (images_list_.size() <= depth_list_.size())
-            num_valid_images_ = images_list_.size();
-    } else {
-        num_valid_images_ = images_list_.size();
-cout << "depth no avaliable"<<endl;
-    }
+//     // Cheking if the number of depth images are greater or lower than the actual number of images
+//     if (depth_available_) {
+//         if (images_list_.size() > depth_list_.size())
+//             num_valid_images_ = depth_list_.size();
+//         if (images_list_.size() <= depth_list_.size())
+//             num_valid_images_ = images_list_.size();
+//     } else {
+//         num_valid_images_ = images_list_.size();
+// cout << "depth no avaliable"<<endl;
+//     }
 
-    initialized_ = true;
-    cout << "Initializing system ... done" << endl << endl;
+//     initialized_ = true;
+//     cout << "Initializing system ... done" << endl << endl;
 }
 
 void System::CalculateROI() {

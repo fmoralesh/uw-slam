@@ -25,28 +25,17 @@
 
 int main (int argc, char *argv[]) 
 {
-    // Parameters
-    int start_index;
-    string images_path;
-    string calibration_path;
-    string ground_truth_dataset;
-    string ground_truth_path;
-    string depth_path;
+    // Load configuration from config/configuration.yml
+    Options options;
 
-    // Create uw-slam system
-    System system(argc, argv, start_index);
+    // Creates uw-slam system
+    System system(argc, argv, options);
 
-    // Calibrates system with certain Camera Model (currently only RadTan) 
-    system.Calibration(calibration_path);
-    
-    // Initialize SLAM system
-    system.InitializeSystem(images_path, ground_truth_dataset, ground_truth_path, depth_path);
-    
     // Start SLAM process
     // Read images one by one from directory provided
-    system.AddFrame(start_index);
+    system.AddFrame(options.getStartingFrame());
 
-    for (int i=start_index+1; i<system.num_valid_images_; i++) 
+    for (int i=options.getStartingFrame()+1; i<system.num_valid_images_; i++) 
     {
         system.AddFrame(i);
         system.Tracking();

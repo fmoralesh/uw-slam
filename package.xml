@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>uw_slam</name>
+  <name>uw-slam</name>
   <version>0.0.0</version>
   <description>SLAM for monocular underwater vehicle</description>
 

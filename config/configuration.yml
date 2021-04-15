@@ -1,3 +1,5 @@
-##############################
-# Configuration file uw-slam #
-##############################
+# Configuration uw-slam 
+uw-slam:
+  starting_frame: 0
+  calibration_path: calibration/calibration_euroc.xml
+  dataset_path: dataset/tum
