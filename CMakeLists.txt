@@ -47,16 +47,18 @@ catkin_package(
   CATKIN_DEPENDS roscpp visualization_msgs message_runtime
 )
 
+# Path for DataStructure
+set(DATA_STRUCTURE_PATH src/internal)
+
 # Source files
 set(uw_slam_SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/src/main_uw_slam.cpp
-    ${PROJECT_SOURCE_DIR}/src/System.cpp
-    ${PROJECT_SOURCE_DIR}/src/Tracker.cpp
-    ${PROJECT_SOURCE_DIR}/src/CameraModel.cpp
-    ${PROJECT_SOURCE_DIR}/src/Options.cpp 
-    ${PROJECT_SOURCE_DIR}/src/Visualizer.cpp 
-    ${PROJECT_SOURCE_DIR}/src/Map.cpp     
-    ${PROJECT_SOURCE_DIR}/src/LeastSquares.cpp 
+    ${PROJECT_SOURCE_DIR}/${DATA_STRUCTURE_PATH}/System.cpp
+    ${PROJECT_SOURCE_DIR}/${DATA_STRUCTURE_PATH}/Tracker.cpp
+    ${PROJECT_SOURCE_DIR}/${DATA_STRUCTURE_PATH}/CameraModel.cpp
+    ${PROJECT_SOURCE_DIR}/${DATA_STRUCTURE_PATH}/Options.cpp 
+    ${PROJECT_SOURCE_DIR}/${DATA_STRUCTURE_PATH}/Visualizer.cpp 
+    ${PROJECT_SOURCE_DIR}/${DATA_STRUCTURE_PATH}/Map.cpp     
+    ${PROJECT_SOURCE_DIR}/${DATA_STRUCTURE_PATH}/LeastSquares.cpp 
     
 )
 

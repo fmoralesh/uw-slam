@@ -20,18 +20,19 @@
 */
 
 
-#include <System.h>
-#include <Tracker.h>
-
-int start_index;
-string images_path;
-string calibration_path;
-string ground_truth_dataset;
-string ground_truth_path;
-string depth_path;
+#include <internal/System.h>
+#include <internal/Tracker.h>
 
 int main (int argc, char *argv[]) 
 {
+    // Parameters
+    int start_index;
+    string images_path;
+    string calibration_path;
+    string ground_truth_dataset;
+    string ground_truth_path;
+    string depth_path;
+
     // Create uw-slam system
     System system(argc, argv, start_index);
 

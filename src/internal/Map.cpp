@@ -19,8 +19,8 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Map.h"
-#include "System.h"
+#include "internal/Map.h"
+#include "internal/System.h"
 
 
 class Frame;

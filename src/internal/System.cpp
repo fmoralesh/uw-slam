@@ -18,10 +18,10 @@
 * You should have received a copy of the GNU General Public License
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Options.h"
-#include "System.h"
-#include "CameraModel.h"
-#include "Tracker.h"
+#include "internal/Options.h"
+#include "internal/System.h"
+#include "internal/CameraModel.h"
+#include "internal/Tracker.h"
 
 System::System(int argc, char *argv[], int _start_index) {
     ros::init(argc, argv, "uw_slam");  // Initialize ROS

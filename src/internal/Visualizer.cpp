@@ -19,7 +19,7 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <Visualizer.h>
+#include <internal/Visualizer.h>
 
 Visualizer::Visualizer(int start_index, int num_images, Mat K, string _ground_truth_dataset, string ground_truth_path) {
     

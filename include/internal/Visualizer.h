@@ -19,7 +19,6 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-#include <System.h>
 
 ///Basic C and C++ libraries
 #include <stdlib.h>
@@ -41,6 +40,8 @@
 #include <visualization_msgs/Marker.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
+
+#include "internal/System.h"
 
 // Namespaces
 using namespace std;

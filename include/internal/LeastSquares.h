@@ -15,9 +15,10 @@
 * along with LSD-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-#include <Options.h>
 #include <opencv2/core.hpp>
 #include <Eigen/Core>
+
+#include "internal/Options.h"
 
 class LS
 {

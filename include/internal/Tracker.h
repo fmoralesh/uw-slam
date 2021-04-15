@@ -20,7 +20,7 @@
 */
 
 #pragma once
-#include <Options.h>
+
 ///Basic C and C++ libraries
 #include <stdlib.h>
 #include <iostream>
@@ -49,6 +49,8 @@
 // #include "opencv2/xfeatures2d/cuda.hpp"
 // #include "opencv2/cudaimgproc.hpp"
 // #include "opencv2/cudaarithm.hpp"
+
+#include "internal/Options.h"
 
 // Namespaces
 using namespace cv;

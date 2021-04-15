@@ -19,7 +19,7 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <Options.h>
+#include "internal/Options.h"
 
 const int PYRAMID_LEVELS  =  5;
 double GRADIENT_THRESHOLD =  20;

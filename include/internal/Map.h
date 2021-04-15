@@ -20,7 +20,7 @@
 */
 
 #pragma once
-#include <Options.h>
+
 ///Basic C and C++ libraries
 #include <stdlib.h>
 #include <iostream>
@@ -42,6 +42,8 @@
 // Sophus
 #include "sophus/se3.hpp"
 #include "sophus/so3.hpp"
+
+#include "internal/Options.h"
 
 /// CUDA specific libraries
 // #include <opencv2/cudafilters.hpp>

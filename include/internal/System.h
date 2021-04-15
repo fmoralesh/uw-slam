@@ -21,13 +21,8 @@
 
 // TODO(GitHub:fmoralesh, fabmoraleshidalgo@gmail.com) 02-13-2018 - Clean unused libraries.
 #pragma once
-#include "Options.h"
-#include "CameraModel.h"
-#include "Tracker.h"
-#include "Visualizer.h"
-#include "Map.h"
 
-///Basic C and C++ libraries
+// Basic C and C++ libraries
 #include <stdlib.h>
 #include <iostream>
 #include <iomanip>
@@ -35,7 +30,7 @@
 #include <string>
 #include <dirent.h>
 
-/// OpenCV libraries. May need review for the final release
+// OpenCV libraries. May need review for the final release
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
@@ -47,6 +42,12 @@
 // #include "opencv2/xfeatures2d/cuda.hpp"
 // #include "opencv2/cudaimgproc.hpp"
 // #include "opencv2/cudaarithm.hpp"
+
+#include "internal/Options.h"
+#include "internal/CameraModel.h"
+#include "internal/Tracker.h"
+#include "internal/Visualizer.h"
+#include "internal/Map.h"
 
 // Namespaces
 using namespace cv;
