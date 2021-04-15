@@ -46,11 +46,8 @@ Frame::~Frame(void) {
 
 }
 
-System::System(int argc, char *argv[], Options _options) : options_(_options)
+System::System(ros::NodeHandle nh) : nh_(nh)
 {
-    // Initialize ROS
-    ros::init(argc, argv, "uw_slam");
-
     initialized_      = false;
     distortion_valid_ = false;
     depth_available_  = false;
@@ -58,8 +55,8 @@ System::System(int argc, char *argv[], Options _options) : options_(_options)
     num_keyframes_    = 0;
     num_valid_images_ = 0;
 
-    this->Calibration(options_.getCalibrationPath());
-    this->InitializeSystem();
+    options_ = Options(nh_);
+    options_.loadConfiguration();
 }
 
 System::~System() {

@@ -63,14 +63,20 @@ class Options
 {
 public:
 
-    Options();
+    Options() = default;
     ~Options() = default;
 
+    Options(ros::NodeHandle nh);
+
+    void loadConfiguration();
+    
     const int         getStartingFrame();
     const std::string getCalibrationPath();
     const std::string getDatasetPath();
 
 private:
+
+    ros::NodeHandle nh_;
 
     int         starting_frame_;
     std::string calibration_path_;

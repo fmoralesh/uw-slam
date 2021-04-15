@@ -104,12 +104,9 @@ class System {
 public:
     /**
      * @brief Constructor of System. Contains args from parser for ROS initialization.
-     * 
-     * @param argc 
-     * @param argv 
-     * @param _options 
+     *
      */
-    System(int argc, char *argv[], Options _options);
+    System(ros::NodeHandle nh);
 
     /**
      * @brief Destructor of System.
@@ -226,5 +223,7 @@ public:
 private:
 
     Options options_;
+    
+    ros::NodeHandle nh_;
 
 };

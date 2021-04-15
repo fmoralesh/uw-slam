@@ -1,5 +1,5 @@
 # Configuration uw-slam 
-uw-slam:
-  starting_frame: 0
+uw_slam:
+  starting_frame: 16
   calibration_path: calibration/calibration_euroc.xml
   dataset_path: dataset/tum

@@ -25,32 +25,33 @@
 
 int main (int argc, char *argv[]) 
 {
-    // Load configuration from config/configuration.yml
-    Options options;
+    // Initialize ROS
+    ros::init(argc, argv, "uw-slam");
+    ros::NodeHandle nh;
 
     // Creates uw-slam system
-    System system(argc, argv, options);
+    System system(nh);
 
     // Start SLAM process
     // Read images one by one from directory provided
-    system.AddFrame(options.getStartingFrame());
+    // system.AddFrame(options.getStartingFrame());
 
-    for (int i=options.getStartingFrame()+1; i<system.num_valid_images_; i++) 
-    {
-        system.AddFrame(i);
-        system.Tracking();
-        system.visualizer_->UpdateMessages(system.previous_frame_);
+    // for (int i=options.getStartingFrame()+1; i<system.num_valid_images_; i++) 
+    // {
+    //     system.AddFrame(i);
+    //     system.Tracking();
+    //     system.visualizer_->UpdateMessages(system.previous_frame_);
 
         
-        // Delete oldest frame (keeping 10 frames)
-        if (system.num_frames_> 10) {
-            system.FreeFrames();
-        }
+    //     // Delete oldest frame (keeping 10 frames)
+    //     if (system.num_frames_> 10) {
+    //         system.FreeFrames();
+    //     }
 
-        cout << "Matches: " << system.previous_frame_->n_matches_ << endl;
-    }
+    //     cout << "Matches: " << system.previous_frame_->n_matches_ << endl;
+    // }
 
-    cout << "Dataset ended..." << endl;
+    // cout << "Dataset ended..." << endl;
   
     return 0;
 }

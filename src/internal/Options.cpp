@@ -25,13 +25,15 @@ const int PYRAMID_LEVELS  =  5;
 double GRADIENT_THRESHOLD =  20;
 int BLOCK_SIZE            =  32;
 
+Options::Options(ros::NodeHandle nh) : nh_(nh) 
+{}
+
 // Loading parameters from config/configuration.yml
-Options::Options()
+void Options::loadConfiguration()
 {
-    ros::NodeHandle n;
-    n.param<int>("starting_frame", starting_frame_, 0);
-    n.param<std::string>("calibration_path", calibration_path_, "");
-    n.param<std::string>("dataset_path", dataset_path_, "");
+    nh_.param<int>("/uw_slam/starting_frame", starting_frame_, 0);
+    nh_.param<std::string>("/uw_slam/calibration_path", calibration_path_, "");
+    nh_.param<std::string>("/uw_slam/dataset_path", dataset_path_, "");
 }
 
 const int Options::getStartingFrame()

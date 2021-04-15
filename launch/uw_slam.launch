@@ -7,6 +7,6 @@
     <node pkg="uw-slam" type="main_uw_slam" name="main" output="screen"/>
         
     <!-- Rviz visualizer-->
-    <node pkg="rviz" type="rviz" name="rviz"/>
+    <!-- <node pkg="rviz" type="rviz" name="rviz"/> -->
 
 </launch>
