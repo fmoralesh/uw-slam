@@ -1,10 +1,10 @@
 <launch>
     
     <!-- Configuration -->
-    <rosparam command="load" file="$(find uw-slam)/config/configuration.yml"/>
+    <rosparam command="load" file="$(find uw_slam)/config/configuration.yml"/>
 
-    <!-- Main uw-slam -->
-    <node pkg="uw-slam" type="main_uw_slam" name="main" output="screen"/>
+    <!-- Main uw_slam -->
+    <node pkg="uw_slam" type="uw_slam_node" name="uw_slam_node" output="screen"/>
         
     <!-- Rviz visualizer-->
     <!-- <node pkg="rviz" type="rviz" name="rviz"/> -->

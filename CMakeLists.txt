@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(uw_slam)
+
+# Project name
+set(PROJECT_NAME uw_slam)
+project(${PROJECT_NAME})
 
 ## Compile as C++11, supported in ROS Melodic and newer
- add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 # Opencv Library (local)
 #set(OpenCV_INCLUDE_DIRS /usr/local/)
@@ -48,7 +51,7 @@ catkin_package(
 )
 
 # Path for DataStructure
-set(DATA_STRUCTURE_PATH src/internal)
+set(DATA_STRUCTURE_PATH code/src)
 
 # Source files
 set(uw_slam_SOURCE_FILES
@@ -65,15 +68,15 @@ set(uw_slam_SOURCE_FILES
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
-  ${PROJECT_SOURCE_DIR}/include
-  ${PROJECT_SOURCE_DIR}/thirdparty
+  ${PROJECT_SOURCE_DIR}/code/include
+  ${PROJECT_SOURCE_DIR}/code/thirdparty
 )
 
 add_library(uw_lib ${uw_slam_SOURCE_FILES})
 
-add_executable(uw_slam_node ${PROJECT_SOURCE_DIR}/src/uw_slam_node.cpp)
+add_executable(${PROJECT_NAME}_node ${PROJECT_SOURCE_DIR}/code/${PROJECT_NAME}_node.cpp)
 
 ## IMPORTANT - TO WORK WITH CUDA AND ROS (CUDA INSTALLED IN ANOTHER OPENCV)
 string(REPLACE "/opt/ros/kinetic/lib/libopencv_core3.so.3.3;" "" catkin_LIBRARIES "${catkin_LIBRARIES}")
 
-target_link_libraries(uw_slam_node uw_lib ${OpenCV_LIBS} ${CERES_LIBRARIES} ${catkin_LIBRARIES} ${CUDA_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_node uw_lib ${OpenCV_LIBS} ${CERES_LIBRARIES} ${catkin_LIBRARIES} ${CUDA_LIBRARIES})

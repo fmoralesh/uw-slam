@@ -50,7 +50,7 @@
 // #include "opencv2/cudaimgproc.hpp"
 // #include "opencv2/cudaarithm.hpp"
 
-#include "internal/Options.h"
+#include "uw_slam/Options.h"
 
 // Namespaces
 using namespace cv;

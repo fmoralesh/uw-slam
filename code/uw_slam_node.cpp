@@ -20,8 +20,8 @@
 */
 
 
-#include <internal/System.h>
-#include <internal/Tracker.h>
+#include <uw_slam/System.h>
+#include <uw_slam/Tracker.h>
 
 int main (int argc, char *argv[]) 
 {

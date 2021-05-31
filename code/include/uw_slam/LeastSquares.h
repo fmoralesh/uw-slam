@@ -18,7 +18,7 @@
 #include <opencv2/core.hpp>
 #include <Eigen/Core>
 
-#include "internal/Options.h"
+#include "uw_slam/Options.h"
 
 class LS
 {

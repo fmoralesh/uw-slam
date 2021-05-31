@@ -20,7 +20,7 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "internal/LeastSquares.h"
+#include "uw_slam/LeastSquares.h"
 
 LS::~LS() {};
 

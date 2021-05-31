@@ -41,7 +41,7 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 
-#include "internal/System.h"
+#include "uw_slam/System.h"
 
 // Namespaces
 using namespace std;

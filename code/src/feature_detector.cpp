@@ -6,7 +6,7 @@
  * AUTHOR:      Fabio Morales               *
  ********************************************/
 
-#include "feature_detector.h"
+#include "uw_slam/feature_detector.h"
 
 #define DIMENSION_PATCH         10
 #define DIMENSION_WIDTH         640

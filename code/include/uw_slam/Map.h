@@ -43,7 +43,7 @@
 #include "sophus/se3.hpp"
 #include "sophus/so3.hpp"
 
-#include "internal/Options.h"
+#include "uw_slam/Options.h"
 
 /// CUDA specific libraries
 // #include <opencv2/cudafilters.hpp>

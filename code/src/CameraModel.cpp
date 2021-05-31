@@ -19,7 +19,7 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "internal/CameraModel.h"
+#include "uw_slam/CameraModel.h"
 
 CameraModel::~CameraModel() {}
 

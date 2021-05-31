@@ -29,6 +29,7 @@
 #include <sstream>
 #include <string>
 #include <dirent.h>
+#include <memory>
 
 // OpenCV libraries. May need review for the final release
 #include <opencv2/core.hpp>
@@ -43,11 +44,11 @@
 // #include "opencv2/cudaimgproc.hpp"
 // #include "opencv2/cudaarithm.hpp"
 
-#include "internal/Options.h"
-#include "internal/CameraModel.h"
-#include "internal/Tracker.h"
-#include "internal/Visualizer.h"
-#include "internal/Map.h"
+#include "uw_slam/Options.h"
+#include "uw_slam/CameraModel.h"
+#include "uw_slam/Tracker.h"
+#include "uw_slam/Visualizer.h"
+#include "uw_slam/Map.h"
 
 // Namespaces
 using namespace cv;
@@ -188,10 +189,10 @@ public:
      */
     void FreeFrames();
 
-    CameraModel* camera_model_;
-    Tracker* tracker_;
-    Map* map_;
-    Visualizer* visualizer_;
+    std::shared_ptr<CameraModel> camera_model_;
+    std::shared_ptr<Tracker> tracker_;
+    std::shared_ptr<Map> map_;
+    std::shared_ptr<Visualizer> visualizer_;
 
     int start_index_;
     int num_valid_images_;

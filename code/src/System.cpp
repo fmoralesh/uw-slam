@@ -18,10 +18,10 @@
 * You should have received a copy of the GNU General Public License
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "internal/Options.h"
-#include "internal/System.h"
-#include "internal/CameraModel.h"
-#include "internal/Tracker.h"
+#include "uw_slam/Options.h"
+#include "uw_slam/System.h"
+#include "uw_slam/CameraModel.h"
+#include "uw_slam/Tracker.h"
 
 Frame::Frame(void) {
     
@@ -61,20 +61,11 @@ System::System(ros::NodeHandle nh) : nh_(nh)
 
 System::~System() {
     cout << "SLAM System shutdown ..." << endl;
-    frames_.clear();
-    keyframes_.clear();
-    camera_model_->~CameraModel();
-    tracker_->~Tracker();
-    visualizer_->~Visualizer();
-
-    delete camera_model_;
-    delete tracker_;
-    delete visualizer_;
 }
 
 void System::Calibration(string _calibration_path) {
     cout << "Reading calibration xml file";
-    camera_model_ = new CameraModel();
+    camera_model_ = std::shared_ptr<CameraModel>(new CameraModel());
     camera_model_->GetCameraModel(_calibration_path);
     w_ = camera_model_->GetOutputWidth();
     h_ = camera_model_->GetOutputHeight();

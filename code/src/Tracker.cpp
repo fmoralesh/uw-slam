@@ -19,9 +19,9 @@
 * along with UW-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "internal/LeastSquares.h"
-#include "internal/Tracker.h"
-#include "internal/System.h"
+#include "uw_slam/LeastSquares.h"
+#include "uw_slam/Tracker.h"
+#include "uw_slam/System.h"
 
 
 #include <opencv2/core/eigen.hpp>
