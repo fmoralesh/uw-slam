@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(uw-slam)
+project(uw_slam)
 
 ## Compile as C++11, supported in ROS Melodic and newer
  add_compile_options(-std=c++11)
@@ -69,11 +69,11 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/thirdparty
 )
 
-add_library(uw ${uw_slam_SOURCE_FILES})
+add_library(uw_lib ${uw_slam_SOURCE_FILES})
 
-add_executable(main_uw_slam ${PROJECT_SOURCE_DIR}/src/main_uw_slam.cpp)
+add_executable(uw_slam_node ${PROJECT_SOURCE_DIR}/src/uw_slam_node.cpp)
 
 ## IMPORTANT - TO WORK WITH CUDA AND ROS (CUDA INSTALLED IN ANOTHER OPENCV)
 string(REPLACE "/opt/ros/kinetic/lib/libopencv_core3.so.3.3;" "" catkin_LIBRARIES "${catkin_LIBRARIES}")
 
-target_link_libraries(main_uw_slam uw ${OpenCV_LIBS} ${CERES_LIBRARIES} ${catkin_LIBRARIES} ${CUDA_LIBRARIES})
+target_link_libraries(uw_slam_node uw_lib ${OpenCV_LIBS} ${CERES_LIBRARIES} ${catkin_LIBRARIES} ${CUDA_LIBRARIES})
